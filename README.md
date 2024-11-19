@@ -4,9 +4,11 @@
 
 # Miniproject3
 
+Using Flask to create a web app that helps with decision making! Simply ask the 8-Ball what you want and it will give you an answer.
+
 # Description
 
-Using Flask to create a web app that helps with decision making! Simply ask the 8-Ball what you want and it will give you an answer.
+
 
 ## Getting Started
 
