@@ -21,6 +21,8 @@ pip install -r requirements.txt
 ### Executing program
 
 ```
+Navigate to *http://127.0.0.1:5000/Eightball* in order to launch the software
+
 py main.py
 ```
 
