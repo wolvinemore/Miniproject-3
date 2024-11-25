@@ -21,9 +21,11 @@ pip install -r requirements.txt
 ### Executing program
 
 ```
-Navigate to *http://127.0.0.1:5000/Eightball* in order to launch the software
-
 flask --app flaskr run --debug to start the server on your local host machine.
+
+Navigate to *http://127.0.0.1:5000/source* in order to launch the software
+
+Navigate to http://127.0.0.1:5000/auth/register to register you account and then click the login link to log into your account.
 
 To run this server live for public usage, run this command and ensure this is the output:
 
