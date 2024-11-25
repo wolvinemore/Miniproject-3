@@ -24,6 +24,12 @@ pip install -r requirements.txt
 Navigate to *http://127.0.0.1:5000/Eightball* in order to launch the software
 
 flask --app flaskr run --debug to start the server on your local host machine.
+
+To run this server live for public usage, run this command and ensure this is the output:
+
+*waitress-serve --call 'flaskr:create_app'*
+
+Serving on http://0.0.0.0:8080
 ```
 
 ### Output 
