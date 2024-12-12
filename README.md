@@ -20,6 +20,8 @@ pip install -r requirements.txt
 
 ### Executing program
 
+Setup database command: flask --app flaskr init-db
+
 ```
 flask --app flaskr run --debug to start the server on your local host machine.
 
