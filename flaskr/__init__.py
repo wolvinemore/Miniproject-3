@@ -1,7 +1,19 @@
+### INF601 - Advanced Programming in Python
+### Kadin Heacock
+### miniproject-3
+
+#imports
 import os
 
 from flask import Flask
 
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, url_for, session
+)
+from werkzeug.exceptions import abort
+
+from flaskr.auth import login_required
+from flaskr.db import get_db
 
 def create_app(test_config=None):
     # create and configure the app

@@ -34,9 +34,20 @@ To run this server live for public usage, run this command and ensure this is th
 Serving on http://0.0.0.0:8080
 ```
 
+Set up the SQL database:
+
+```
+This can be set up any way you prefer. However I prefer setting it up by creatin a folder main and creating tables.
+
+```
+
+### How to use
+
+After the page is initially set up and the database is set up. Get to doing some threat research and collect some data!
+
 ### Output 
 
-This should create 5 graphs in Charts for each of the 5 stocks.
+This should allow users to input threat data and be able to view it.
 
 
 ## Author

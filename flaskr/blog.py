@@ -99,3 +99,114 @@ def delete(id):
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('blog.index'))
+
+
+#function used to collect user provided threat data and commitit to the database
+@bp.route('/threat', methods=('GET', 'POST'))
+@login_required # new
+def threat():
+    if request.method == 'POST':
+
+        title = request.form['title']
+        Field1 = request.form['Field1']
+        Field2 = request.form['Field2']
+        Field3 = request.form['Field3']
+        Field4 = request.form['Field4']
+        description = request.form['description']
+        g.user['username']
+
+        db = get_db()
+        # Takes field data inserted into webpage and stores them into threat SQL database to be called on in view_threat_data webpage
+        threat = db.execute(
+            f'''INSERT INTO threat (title, username, author_user_id, Field1, Field2, Field3, Field4, description) VALUES ('{title}','{g.user['username']}', {g.user['id']}, '{Field1}', '{Field2}', '{Field3}', '{Field4}', '{description}')'''
+        ).fetchall()
+
+        db.commit()
+
+        error = None
+        flash(error)
+
+    return render_template('blog/threat.html')
+
+
+# function used to display user collected threat data from database
+@bp.route('/view_threat', methods=('GET', 'POST'))
+def view_threat():
+
+    db = get_db()
+
+    threats = db.execute(
+        'SELECT id, title, username, author_user_id, Field1, Field2, Field3, Field4, description, created_at, updated_at'
+        ' FROM threat'
+        ' ORDER BY updated_at DESC'
+    ).fetchall()
+
+
+    return render_template('blog/view_threat.html', threats=threats)
+
+
+
+# function used to display user collected threat data from database
+@bp.route('/edit_threat', methods=('GET', 'POST'))
+@login_required
+def edit_threat():
+    threat = get_threat(id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        username = request.form['username']
+        Field1 = request.form['Field1']
+        Field2 = request.form['Field2']
+        Field3 = request.form['Field3']
+        Field4 = request.form['Field4']
+        description = request.form['description']
+        error = None
+
+        if not title:
+            error = 'Title is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'UPDATE threat SET title = ?, description = ?'
+                ' WHERE id = ?',
+                (title, description, id)
+            )
+            db.commit()
+            return redirect(url_for('blog.threat'))
+
+    return render_template('blog/view_threat.html')
+
+
+    return render_template('blog/edit_threat.html', threat=threat)
+
+
+
+#function that's called when deleting Threats from the threat database.
+@bp.route('/<int:id>/delete_threat', methods=('POST',))
+@login_required
+def delete_threat(id):
+    get_threat(id)
+    db = get_db()
+    db.execute('DELETE FROM threat WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('blog.view_threat'))
+
+
+#function that's called to get data for editing a threat.
+def get_threat(id, check_author=True):
+    threat = get_db().execute(
+        'SELECT id, title, username, author_user_id, Field1, Field2, Field3, Field4, description, created_at, updated_at'
+        ' FROM threat'
+        ' ORDER BY updated_at DESC'
+    ).fetchone()
+
+    if threat is None:
+        abort(404, f"threat id {id} doesn't exist.")
+
+    if check_author and threat['author_user_id'] != g.user['id']:
+        abort(403)
+
+    return threat
